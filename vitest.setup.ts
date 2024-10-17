@@ -1,4 +1,4 @@
-import { afterAll, beforeEach } from 'vitest'
+import { afterEach, beforeAll } from 'vitest'
 import { prisma } from './src/lib/prisma'
 import { execSync } from 'child_process'
 import * as dotenv from 'dotenv'
@@ -10,11 +10,11 @@ async function setup() {
   execSync('npx prisma db push')
 }
 
-beforeEach(async () => {
-  await prisma.book.deleteMany({})
-  await prisma.user.deleteMany({})
+beforeAll(async () => {
+  await setup()
 })
 
-afterAll(async () => {
-  setup()
+afterEach(async () => {
+  await prisma.book.deleteMany({})
+  await prisma.user.deleteMany({})
 })
