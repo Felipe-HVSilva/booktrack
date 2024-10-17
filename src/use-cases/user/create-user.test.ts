@@ -1,16 +1,19 @@
-import { describe, expect, it } from 'vitest'
-import { createUserWithoutGoogleId } from '../../tests/fixtures/user'
+import { describe, expect, it, vitest } from 'vitest'
+import { createUserWithoutGoogleId, user } from '../../tests/fixtures/user'
 import { CreateUserUseCase } from './create-user'
+
+import { EmailAlreadyInUseError } from '../../errors/EmailAlreadyInUseError'
+import { User } from '../../models/user'
 
 describe('CreateUserUseCase', () => {
   class CreateUserRepositoryStub {
-    async execute() {
+    async execute(): Promise<User> {
       return createUserWithoutGoogleId
     }
   }
 
   class GetUserByEmailStub {
-    async execute() {
+    async execute(): Promise<User | null> {
       return null
     }
   }
@@ -33,5 +36,16 @@ describe('CreateUserUseCase', () => {
     const result = await sut.execute(createUserWithoutGoogleId)
 
     expect(result).toEqual(createUserWithoutGoogleId)
+  })
+
+  it('should throw  an EmailAlreadyInUseError if GetUserByEmailRepository returns a user', async () => {
+    const { sut, getUserByEmailRepository } = makeSut()
+    vitest
+      .spyOn(getUserByEmailRepository, 'execute')
+      .mockResolvedValueOnce(createUserWithoutGoogleId)
+
+    const result = sut.execute(user)
+
+    expect(result).rejects.toThrow(new EmailAlreadyInUseError(user.email))
   })
 })

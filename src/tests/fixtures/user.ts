@@ -21,6 +21,7 @@ export const createUserWithoutGoogleId = {
   id: faker.string.uuid(),
   name: faker.person.firstName(),
   email: faker.internet.email(),
+  googleId: undefined,
   password: faker.internet.password({
     length: 7,
   }),
