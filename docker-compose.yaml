@@ -13,5 +13,18 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
+  postgres_test:
+    image: postgres:latest
+    container_name: booktrack_postgres_test
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: booktrack_test
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+
 volumes:
   postgres-data:
+  postgres_test_data:
