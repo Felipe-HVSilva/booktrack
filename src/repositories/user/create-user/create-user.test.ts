@@ -1,19 +1,7 @@
 import { describe, expect, it, vitest } from 'vitest'
 import { CreateUserRepository } from './create-user'
 import { prisma } from '../../../lib/prisma'
-
-const user = {
-  name: 'felipe',
-  email: 'felipe@gmail.com',
-  password: 'password_hash',
-}
-
-const userWithGoogleId = {
-  name: 'felipe',
-  email: 'felipe@gmail.com',
-  password: 'password_hash',
-  googleId: '#googleId',
-}
+import { user, userWithGoogleId } from '../../../tests/fixtures/user'
 
 describe('CreateUserRepository', () => {
   it('should create user', async () => {
