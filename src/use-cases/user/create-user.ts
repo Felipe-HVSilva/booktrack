@@ -5,6 +5,7 @@ import {
   ICreateUserRepository,
 } from '../../repositories/user/create-user/protocols'
 import { IGetUserByEmailRepository } from '../../repositories/user/get-user-by-email/protocols'
+import { EmailAlreadyInUseError } from '../../errors/EmailAlreadyInUseError'
 
 export class CreateUserUseCase implements ICreateUserRepository {
   constructor(
@@ -18,7 +19,7 @@ export class CreateUserUseCase implements ICreateUserRepository {
     )
 
     if (emailAlreadyInUse) {
-      throw new Error('Error')
+      throw new EmailAlreadyInUseError(user.email)
     }
 
     if (user.password) {
