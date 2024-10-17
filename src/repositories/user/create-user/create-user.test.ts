@@ -8,6 +8,13 @@ const user = {
   password: 'password_hash',
 }
 
+const userWithGoogleId = {
+  name: 'felipe',
+  email: 'felipe@gmail.com',
+  password: 'password_hash',
+  googleId: '#googleId',
+}
+
 describe('CreateUserRepository', () => {
   it('should create user', async () => {
     const sut = new CreateUserRepository()
@@ -17,6 +24,17 @@ describe('CreateUserRepository', () => {
     expect(createdUser.name).toBe(user.name)
     expect(createdUser.email).toBe(user.email)
     expect(createdUser.password).toBe(user.password)
+  })
+
+  it('should create user with googleId', async () => {
+    const sut = new CreateUserRepository()
+
+    const createdUser = await sut.execute(userWithGoogleId)
+
+    expect(createdUser.name).toBe(userWithGoogleId.name)
+    expect(createdUser.email).toBe(userWithGoogleId.email)
+    expect(createdUser.password).toBe(userWithGoogleId.password)
+    expect(createdUser?.googleId).toBe(userWithGoogleId.googleId)
   })
 
   it('should Prisma is call with correct parameters', async () => {
