@@ -48,4 +48,12 @@ describe('CreateUserUseCase', () => {
 
     expect(result).rejects.toThrow(new EmailAlreadyInUseError(user.email))
   })
+
+  it('should password is cryptograph', async () => {
+    const { sut } = makeSut()
+
+    const result = await sut.execute(user)
+
+    expect(result.password).not.toBe(user.password)
+  })
 })
